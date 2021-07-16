@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LSBase
 
 class Demo2ViewController: UIViewController {
     var timer: LSTimer? = LSTimer()

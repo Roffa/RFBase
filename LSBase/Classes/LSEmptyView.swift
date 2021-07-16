@@ -77,14 +77,14 @@ open class LSEmptyView: UIView, LSBaseRxProtocol{
         }
         imgBtn.setImage(image, for: .normal)
         imgBtn.setImage(image, for: .highlighted)
-        let max = max(max(image?.size.height ?? 0, image?.size.width ?? 0), 100)
+        let maxValue = max(max(image?.size.height ?? 0, image?.size.width ?? 0), 100)
         addSubview(titleBtn)
         addSubview(imgBtn)
         
         imgBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(LSEmptyView.imgTop)
-            make.size.equalTo(max)
+            make.size.equalTo(maxValue)
         }
         titleBtn.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

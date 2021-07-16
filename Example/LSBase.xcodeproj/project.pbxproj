@@ -37,7 +37,7 @@
 
 /* Begin PBXFileReference section */
 		04D5984253DA26A069D8BA62 /* Pods-LSBase_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LSBase_Example.release.xcconfig"; path = "Target Support Files/Pods-LSBase_Example/Pods-LSBase_Example.release.xcconfig"; sourceTree = "<group>"; };
-		1204CBE7D8A4A1ACE941E9DB /* LSBase.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LSBase.podspec; path = ../LSBase.podspec; sourceTree = "<group>"; };
+		1204CBE7D8A4A1ACE941E9DB /* LSBase.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LSBase.podspec; path = ../LSBase.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		607FACD01AFB9204008FA782 /* LSBase_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LSBase_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };

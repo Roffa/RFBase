@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import LSBase
+@_exported import LSBase  //全局导入，其他类无需再次import
 
 class ViewController:UIViewController, LSBaseVCProtocol, LSBaseRxProtocol {
     lazy var viewModel: LSBaseViewModel = ViewModel()

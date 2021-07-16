@@ -7,20 +7,29 @@
 //
 
 import UIKit
-import LSBase
 
-class Demo3ViewController: LSTabBarController {
+extension LSHudView{
+    static func text(text:String){
+        LSHudView.textColor = .blue
+        LSHudView.text(text: text, offset:.center)
+    }
+}
+
+class Demo3ViewController: UIViewController {
 
     
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "3"
         // Do any additional setup after loading the view.
-        
-        
+        tableView.ls_header = LSRefreshView.header()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        LSHudView.text(text: "弹框")
+    }
 
     /*
     // MARK: - Navigation

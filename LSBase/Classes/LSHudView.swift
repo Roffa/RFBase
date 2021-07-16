@@ -25,7 +25,7 @@ open class LSHudView: UIView{
      @discussion 当view上已存在hud正在显示，调用方法将返回正在显示的hud，新hud显示失败。 避免hud叠加显示异常
      */
     @discardableResult
-    public class func loading(_ view: UIView = UIApplication.shared.windows.last!, text: String? = nil) -> HKProgressHUD{
+    public class func loading(_ view: UIView = UIApplication.shared.windows.last!, text: String? = nil) -> UIView{
         if let h = HKProgressHUD.hudForView(view){ //当本地已存在弹框，新弹框显示失败
             return h
         }
@@ -43,8 +43,37 @@ open class LSHudView: UIView{
         }
         return hud
     }
-    public class func hide(_ hudView: HKProgressHUD){
-        hudView.hide(animated: true)
+    /**
+     @brief 隐藏hud
+     @param hudView  hudView本身|父视图|nil
+     @note 当传入参数为hudview时， 直接隐藏。否则从父视图查找或者从默认视图查找
+     */
+    public class func hide(_ hudView: UIView? = nil){
+        if let view = hudView{
+            if let hud = view as? HKProgressHUD {
+                hud.hide(animated: true)
+            }else{
+                let hud = HKProgressHUD.hudForView(view)
+                hud?.hide(animated: true)
+            }
+        }else{
+            let view = UIApplication.shared.windows.last!
+            let hud = HKProgressHUD.hudForView(view)
+            hud?.hide(animated: true)
+        }
+        
+    }
+    /**
+     @brief 更改Hud文字信息
+     @param view 对外抛出的hudView
+     @param text 需要显示的新文字信息
+     @author rf/2021-07-08
+     */
+    public class func updateText(_ view: UIView, text: String){
+        guard let hud = view as? HKProgressHUD  else {
+            fatalError(#file + ".传入的view必须为hudView")
+        }
+        hud.label?.text = text
     }
     /**
      @brief 只显示文字信息弹框
@@ -55,7 +84,7 @@ open class LSHudView: UIView{
      @discussion 当view上已存在hud正在显示，调用方法将返回正在显示的hud，新hud显示失败。 避免hud叠加显示异常
      */
     @discardableResult
-    public class func text(_ view: UIView = UIApplication.shared.windows.last!, text: String, offset: LSHudViewOrientation = .bottom , delay: TimeInterval = 1.5 )  -> HKProgressHUD{
+    public class func text(_ view: UIView = UIApplication.shared.windows.last!, text: String, offset: LSHudViewOrientation = .bottom , delay: TimeInterval = 1.5 )  -> UIView{
         if let h = HKProgressHUD.hudForView(view){ //当本地已存在弹框，新弹框显示失败
             return h
         }
@@ -85,7 +114,7 @@ open class LSHudView: UIView{
      @discussion 当view上已存在hud正在显示，调用方法将返回正在显示的hud，新hud显示失败。 避免hud叠加显示异常
      */
     @discardableResult
-    public class func succ(_ view: UIView = UIApplication.shared.windows.last!, text: String? = nil, image: UIImage? = nil, delay: TimeInterval = 1.5) -> HKProgressHUD{
+    public class func succ(_ view: UIView = UIApplication.shared.windows.last!, text: String? = nil, image: UIImage? = nil, delay: TimeInterval = 1.5) -> UIView{
         if let h = HKProgressHUD.hudForView(view){ //当本地已存在弹框，新弹框显示失败
             return h
         }
@@ -115,7 +144,7 @@ open class LSHudView: UIView{
      @discussion 当view上已存在hud正在显示，调用方法将返回正在显示的hud，新hud显示失败。 避免hud叠加显示异常
      */
     @discardableResult
-    public class func fail(_ view: UIView = UIApplication.shared.windows.last!, text: String? = nil, image: UIImage? = nil, delay: TimeInterval = 1.5) -> HKProgressHUD{
+    public class func fail(_ view: UIView = UIApplication.shared.windows.last!, text: String? = nil, image: UIImage? = nil, delay: TimeInterval = 1.5) -> UIView{
         if let h = HKProgressHUD.hudForView(view){ //当本地已存在弹框，新弹框显示失败
             return h
         }

@@ -4,6 +4,17 @@
 [![Version](https://img.shields.io/cocoapods/v/LSBase.svg?style=flat)](https://cocoapods.org/pods/LSBase)
 [![License](https://img.shields.io/cocoapods/l/LSBase.svg?style=flat)](https://cocoapods.org/pods/LSBase)
 [![Platform](https://img.shields.io/cocoapods/p/LSBase.svg?style=flat)](https://cocoapods.org/pods/LSBase)
+> LSBase组件不依托具体业务，定义相关BaseView系列类与方法。区别于LSTools、LSUIKit
+
+## 功能概述
++ 基于RX的消息传递封装
++ 遵循MVVM模式的BaseViewController
++ 空页面显示文字与按钮
++ HUD 封装，支持loading/fail/succ，以及动态修改hud文字信息
++ 自定义UINavigationBar
++ 自定义UITabbarController
++ 延时方法封装
++ 无循环引用的定时器
 
 ## Example
 
@@ -31,6 +42,7 @@ let hud = LSHudView.loading(text:"加载中")    //加载中，隐藏时调用 L
 LSHudView.text(text: "底部弹框")    //默认1.5秒后自动消失
 LSHudView.succ(image:UIImage(named: "Checkmark"))  //成功
 LSHudView.fail()
+LSHudView.updateText(hud, text:"加载完成")  //更改hud信息
 ```
 
 #### LSEmptyView demo
@@ -101,6 +113,14 @@ navView.title = "标题"
  })
  timer!.cancel()  //手动取消
  ```
+
+## 更新记录
+### 0.1.6(2021-07-08)
+LSHudView增加`updateText`方法，达到动态更改HUD文案信息
+
+### 0.1.5(2021-07-08)
+优化LSHudView, 避免HKProgressHud直接对外使用. 将原各方法返回的HKProgressHud改为UIView
+优化LSHudView.hide方法，传参支持hudView与父视图，使用更加便捷
 
 
 ## Requirements

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LSBase
 
 
 class Demo1ViewController: UIViewController {
