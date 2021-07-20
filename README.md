@@ -15,6 +15,7 @@
 + 自定义UITabbarController
 + 延时方法封装
 + 无循环引用的定时器
++ 下拉刷新、上拉加载更多
 
 ## Example
 
@@ -113,8 +114,38 @@ navView.title = "标题"
  })
  timer!.cancel()  //手动取消
  ```
+ 
+ #### LSRefreshView下拉刷新
+ ```
+ tableView.ls_header = LSRefreshView.header().idle {
+     print("刷新恢复初始状态")
+ }.drag {
+     print("正在下拉")
+ }.refresh {
+     print("刷新中")
+     LSTimer.delay(3) { [weak self] in
+         print("执行了")
+         self?.row = 20
+         self?.tableView.endRefresh()
+     }
+     
+ }
+ tableView.ls_footer = LSRefreshView.footer(texts:[.idle:"上拉加载", .drag:"松手更新"]).refresh {
+     print("刷新中")
+     LSTimer.delay(3) { [weak self] in
+         print("执行了")
+         self?.tableView.footerEndRefresh()
+         self?.row += 10
+         self?.tableView.reloadData()
+     }
+     
+ } 
+```
 
 ## 更新记录
+### 0.2.0(2021-07-20)
+增加下拉刷新类LSRefreshView
+
 ### 0.1.6(2021-07-08)
 LSHudView增加`updateText`方法，达到动态更改HUD文案信息
 
