@@ -51,14 +51,17 @@ open class LSRefreshView: UIView{
 }
 //MARK: 回调
 extension LSRefreshView{
+    @discardableResult
     public func idle(_ closure: @escaping ()->Void) -> Self {
         idleCallback = closure
         return self
     }
+    @discardableResult
     public func drag(_ closure: @escaping ()->Void) -> Self {
         dragCallback = closure
         return self
     }
+    @discardableResult
     public func refresh(_ closure: @escaping ()->Void) -> Self {
         refreshCallback = closure
         return self
@@ -188,7 +191,7 @@ extension UIScrollView{
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
 //        let tableView = object as! UIScrollView
 //        print("isTracking=\(isTracking),isDragging=\(isDragging), isDecelerating=\(isDecelerating), y=\(contentOffset.y)")
-        print("path=\(keyPath),contentSize=\(contentSize.height), contentInset=\(contentInset)")
+//        print("path=\(keyPath),contentSize=\(contentSize.height), contentInset=\(contentInset)")
         
         if keyPath! == "contentSize" {
             if contentSize.height < frame.height {

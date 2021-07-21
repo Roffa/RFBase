@@ -16,6 +16,7 @@
 + 延时方法封装
 + 无循环引用的定时器
 + 下拉刷新、上拉加载更多
++ UITableView数据源便捷工具
 
 ## Example
 
@@ -142,9 +143,73 @@ navView.title = "标题"
  } 
 ```
 
+#### LSTableViewHelper
+```
+private lazy var tableViewHepler: LSTableViewHelper = {
+    let hepler = LSTableViewHelper()
+    hepler.dataSource = [CLTitleCellItem(text: "测试数据1"), CLTitleCellItem(text: "测试数据11"), CLTitleCellItem(text: "测试数据111"), CLTitleCellItem(text: "测试数据1111")]
+    return hepler
+}()
+tableView.dataSource = tableViewHepler
+tableView.delegate = tableViewHepler
+
+tableViewHepler.cellForRow { cell, item, indexPath in
+    let model: CLTitleCellItem = item as! CLTitleCellItem
+//            cell.textLabel?.text = "更改数据\(model.title)"
+}.selectRow { item, indexPath in
+    print("点了第\(indexPath.row+1)行")
+}
+
+class CLTitleCellItem: NSObject {
+    private (set) var title: String = ""
+    var accessoryType: UITableViewCell.AccessoryType = .none
+    var didSelectCellCallback: ((IndexPath) -> ())?
+    init(text: String) {
+        self.title = text
+    }
+}
+extension CLTitleCellItem: LSCellItemProtocol {
+    func bindCell() -> UITableViewCell.Type {
+        return CLTitleCell.self
+    }
+    func cellHeight() -> CGFloat {
+        return 80
+    }
+}
+
+//MARK: - JmoVxia---类-属性
+class CLTitleCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initUI()
+        makeConstraints()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+//MARK: - JmoVxia---布局
+private extension CLTitleCell {
+    func initUI() {
+        selectionStyle = .none
+    }
+    func makeConstraints() {
+    }
+}
+extension CLTitleCell: LSCellProtocol {
+    func ls_setItem(_ item: LSCellItemProtocol) {
+        guard let item = item as? CLTitleCellItem else { return }
+        textLabel?.text = item.title
+        accessoryType = item.accessoryType
+    }
+}
+```
+
+
 ## 更新记录
-### 0.2.0(2021-07-20)
+### 0.2.0(2021-07-21)
 增加下拉刷新类LSRefreshView
+增加TableView数据源便捷工具LSTableViewHelper
 
 ### 0.1.6(2021-07-08)
 LSHudView增加`updateText`方法，达到动态更改HUD文案信息

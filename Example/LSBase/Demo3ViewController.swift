@@ -15,8 +15,13 @@ extension LSHudView{
     }
 }
 
-class Demo3ViewController: UIViewController {
 
+class Demo3ViewController: UIViewController {
+    private lazy var tableViewHepler: LSTableViewHelper = {
+        let hepler = LSTableViewHelper()
+        hepler.dataSource = [CLTitleCellItem(text: "测试数据1"), CLTitleCellItem(text: "测试数据11"), CLTitleCellItem(text: "测试数据111"), CLTitleCellItem(text: "测试数据1111")]
+        return hepler
+    }()
     var row = 20
     @IBOutlet weak var tableView: UITableView!
     
@@ -26,7 +31,8 @@ class Demo3ViewController: UIViewController {
         // Do any additional setup after loading the view.
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 200))
         view.backgroundColor = .red
-        tableView.dataSource = self
+        tableView.dataSource = tableViewHepler
+        tableView.delegate = tableViewHepler
         tableView.ls_header = LSRefreshView.header().idle {
             print("刷新恢复初始状态")
         }.drag {
@@ -50,6 +56,13 @@ class Demo3ViewController: UIViewController {
             }
             
         }
+        
+        tableViewHepler.cellForRow { cell, item, indexPath in
+            let model: CLTitleCellItem = item as! CLTitleCellItem
+//            cell.textLabel?.text = "更改数据\(model.title)"
+        }.selectRow { item, indexPath in
+            print("点了第\(indexPath.row+1)行")
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -65,16 +78,47 @@ class Demo3ViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
-extension Demo3ViewController: UITableViewDataSource{
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = "\(indexPath.row)"
-        return cell
+class CLTitleCellItem: NSObject {
+    private (set) var title: String = ""
+    var accessoryType: UITableViewCell.AccessoryType = .none
+    var didSelectCellCallback: ((IndexPath) -> ())?
+    init(text: String) {
+        self.title = text
     }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return row
+}
+extension CLTitleCellItem: LSCellItemProtocol {
+    func bindCell() -> UITableViewCell.Type {
+        return CLTitleCell.self
     }
-    
+    func cellHeight() -> CGFloat {
+        return 80
+    }
+}
+
+//MARK: - JmoVxia---类-属性
+class CLTitleCell: UITableViewCell {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initUI()
+        makeConstraints()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+//MARK: - JmoVxia---布局
+private extension CLTitleCell {
+    func initUI() {
+        selectionStyle = .none
+    }
+    func makeConstraints() {
+    }
+}
+extension CLTitleCell: LSCellProtocol {
+    func ls_setItem(_ item: LSCellItemProtocol) {
+        guard let item = item as? CLTitleCellItem else { return }
+        textLabel?.text = item.title
+        accessoryType = item.accessoryType
+    }
 }
